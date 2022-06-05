@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "fa5496a8-a3ac-471b-a6a6-26f848a27b02",
+		"name": "Babilo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AdminReg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"adminId\": 890003,\r\n        \"password\": \"munnema\",\r\n        \"emailId\": \"pravallikagodavarthi99@gmail.com\",\r\n        \"name\":\"munnema\",\r\n        \"phoneNumber\":\"9030250490\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/admin/adminReg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"admin",
+						"adminReg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserReg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"userId\": 890003,\r\n        \"password\": \"munnema\",\r\n        \"emailId\": \"pravallikagodavarthi99@gmail.com\",\r\n        \"name\":\"munnema\",\r\n        \"phoneNumber\":\"9030250490\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/user/userReg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"userReg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AuditoriumReg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
