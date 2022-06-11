@@ -1,8 +1,7 @@
 package com.screens.babilo.dao;
 
-import com.screens.babilo.dataentity.Movie;
-import com.screens.babilo.dataentity.MovieBooking;
+import com.screens.babilo.dataentity.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MovieBookingDao extends JpaRepository<MovieBooking,Integer> {
+public interface MovieBookingDao extends JpaRepository<Ticket,Integer> {
 }

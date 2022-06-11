@@ -1,9 +1,8 @@
 package com.screens.babilo.service;
 
-import com.screens.babilo.dataentity.Movie;
-import com.screens.babilo.dataentity.MovieBooking;
+import com.screens.babilo.dataentity.Ticket;
 
 public interface MovieBookingService {
 
-    public void addMovieBooking(MovieBooking movieBooking);
+    public void addMovieBooking(Ticket ticket);
 }

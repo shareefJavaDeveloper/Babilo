@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(@NotNull User user) {
-        if (userDao.existsById(user.getUserId())) throw new RuntimeException("Error at addUser:UserId already Exist");
+        if (userDao.findByEmailId(user.getEmailId())) throw new RuntimeException("Error at addUser:EmailId already Exist");
         else userDao.saveAndFlush(user);
     }
 }

@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -22,9 +20,11 @@ public class Movie implements Serializable {
     private static final long serialVersionUID = 42L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer movieId;
     private String movieName;
     private String movieDirector;
+    private String movieDescription;
     private Integer movieRating;
     private BigDecimal moviePrice;
 }

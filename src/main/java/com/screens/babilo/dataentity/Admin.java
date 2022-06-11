@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -20,6 +18,7 @@ public class Admin implements Serializable {
     @Serial
     private static final long serialVersionUID = 42L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer adminId;
     private String password;
     private String name;

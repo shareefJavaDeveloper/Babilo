@@ -12,16 +12,15 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "User_Registration")
-public class User implements Serializable {
+@Table(name = "Theater_Registration")
+public class Theater implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 42L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
-    private String password;
-    private String name;
-    private String emailId;
-    private String phoneNumber;
+    private Integer theaterId;
+    private String  theaterName;
+    private String  theaterLocation;
+
 }
