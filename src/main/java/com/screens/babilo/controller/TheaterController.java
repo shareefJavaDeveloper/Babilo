@@ -17,19 +17,16 @@ public class TheaterController {
     @Autowired
     private TheaterServiceImpl theaterService;
 
-    @Autowired
-    private TheaterDao theaterDao;
-
     @PostMapping("/theaterReg")
-    public ResponseEntity<HttpStatus> auditoriumRegistration(@RequestBody Theater theater){
+    public ResponseEntity<HttpStatus> theaterRegistration(@RequestBody Theater theater){
         theaterService.addTheater(theater);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/theatersInfo")
-    public ResponseEntity theatersList() throws Exception {
+    public ResponseEntity<List<Theater>> theatersList() throws Exception {
         try{
-            List<Theater> theaters = theaterDao.findAll();
+            List<Theater> theaters = theaterService.getTheaaters();
             return new ResponseEntity<>(theaters,HttpStatus.OK);
         }catch (Exception e){
             throw new Exception(e.getLocalizedMessage());

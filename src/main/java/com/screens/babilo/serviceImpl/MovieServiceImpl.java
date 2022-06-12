@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -17,6 +18,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void addMovie(@NotNull Movie movie) {
         movieDao.saveAndFlush(movie);
+    }
+
+    @Override
+    public List<Movie> getMovies() {
+        return movieDao.findAll();
     }
 
 }

@@ -17,9 +17,6 @@ public class MovieController {
     @Autowired
     private MovieServiceImpl movieService;
 
-    @Autowired
-    private MovieDao movieDao;
-
     @PostMapping("/movieReg")
     public ResponseEntity<HttpStatus> MovieRegistration(@RequestBody Movie movie){
         movieService.addMovie(movie);
@@ -27,9 +24,9 @@ public class MovieController {
     }
 
     @GetMapping("/movieInfo")
-    public ResponseEntity movieList() throws Exception {
+    public ResponseEntity<List<Movie>> movieList() throws Exception {
         try{
-            List<Movie> movies = movieDao.findAll();
+            List<Movie> movies = movieService.getMovies();
             return new ResponseEntity<>(movies,HttpStatus.OK);
         }catch (Exception e){
             throw new Exception(e.getLocalizedMessage());

@@ -16,7 +16,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addAdmin(@NotNull Admin admin) {
-       if (adminDao.findByEmailId(admin.getEmailId())) throw new RuntimeException("Error at addAdmin:EmailId already Exist");
+       if (adminDao.findByEmailId(admin.getEmailId()).isPresent()) throw new RuntimeException("Error at addAdmin:EmailId already Exist");
        else adminDao.saveAndFlush(admin);
     }
 }

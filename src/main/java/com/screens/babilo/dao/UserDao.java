@@ -4,9 +4,11 @@ import com.screens.babilo.dataentity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserDao extends JpaRepository<User,Integer> {
 
 
-    boolean findByEmailId(String emailId);
+    public Optional<User> findByEmailId(String emailId);
 }
