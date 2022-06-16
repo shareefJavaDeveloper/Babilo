@@ -1,6 +1,12 @@
+Drop Database BabiloDB
+GO
+
+CREATE DATABASE BabiloDB
+GO
+
 USE [BabiloDB]
 GO
-/****** Object:  Table [dbo].[Admin_Registration]    Script Date: 11-06-2022 23:52:43 ******/
+/****** Object:  Table [dbo].[Admin_Registration]    Script Date: 16-06-2022 08:32:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17,7 +23,7 @@ CREATE TABLE [dbo].[Admin_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Auditorium_Registration]    Script Date: 11-06-2022 23:52:43 ******/
+/****** Object:  Table [dbo].[Auditorium_Registration]    Script Date: 16-06-2022 08:32:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -34,7 +40,7 @@ CREATE TABLE [dbo].[Auditorium_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Movie_Registration]    Script Date: 11-06-2022 23:52:43 ******/
+/****** Object:  Table [dbo].[Movie_Registration]    Script Date: 16-06-2022 08:32:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -52,7 +58,25 @@ CREATE TABLE [dbo].[Movie_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Theater_Registration]    Script Date: 11-06-2022 23:52:43 ******/
+/****** Object:  Table [dbo].[Schedule]    Script Date: 16-06-2022 08:32:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Schedule](
+	[scheduleId] [int] IDENTITY(1,1) NOT NULL,
+	[theaterId] [int] NOT NULL,
+	[movieId] [int] NOT NULL,
+	[time] [varchar](18) NOT NULL,
+	[date] [datetime] NULL,
+	[seatAvailable] [int] NULL,
+ CONSTRAINT [PK_schedule] PRIMARY KEY CLUSTERED
+(
+	[scheduleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Theater_Registration]    Script Date: 16-06-2022 08:32:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -67,13 +91,13 @@ CREATE TABLE [dbo].[Theater_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User_Registration]    Script Date: 11-06-2022 23:52:43 ******/
+/****** Object:  Table [dbo].[User_Registration]    Script Date: 16-06-2022 08:32:03 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[User_Registration](
-	[userId] [int] NOT NULL,
+	[userId] [int] IDENTITY(1,1) NOT NULL,
 	[password] [varchar](18) NOT NULL,
 	[name] [varchar](20) NOT NULL,
 	[EmailId] [varchar](50) NOT NULL,
