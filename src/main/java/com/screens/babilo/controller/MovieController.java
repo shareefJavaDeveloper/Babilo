@@ -32,4 +32,15 @@ public class MovieController {
             throw new Exception(e.getLocalizedMessage());
         }
     }
+
+    @PutMapping("/movieUpdate")
+    public ResponseEntity<HttpStatus> movieUpdate(@RequestBody Movie movie) throws Exception {
+        try{
+            movieService.updateMovie(movie);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            throw new Exception(e.getLocalizedMessage());
+        }
+
+    }
 }

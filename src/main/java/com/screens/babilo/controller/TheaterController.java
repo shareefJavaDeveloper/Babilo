@@ -1,6 +1,7 @@
 package com.screens.babilo.controller;
 
 import com.screens.babilo.dao.TheaterDao;
+import com.screens.babilo.dataentity.Schedule;
 import com.screens.babilo.dataentity.Theater;
 import com.screens.babilo.serviceImpl.TheaterServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,16 @@ public class TheaterController {
             List<Theater> theaters = theaterService.getTheaaters();
             return new ResponseEntity<>(theaters,HttpStatus.OK);
         }catch (Exception e){
+            throw new Exception(e.getLocalizedMessage());
+        }
+    }
+
+    @PutMapping("/theaterUpdate")
+    public ResponseEntity<HttpStatus> scheduleUpdate(@RequestBody Theater theater) throws Exception {
+        try {
+            theaterService.updateTheater(theater);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
             throw new Exception(e.getLocalizedMessage());
         }
     }

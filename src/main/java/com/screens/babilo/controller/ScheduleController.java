@@ -18,17 +18,27 @@ public class ScheduleController {
     private SchedulerServiceImpl schedulerServiceImpl;
 
     @PostMapping("/scheduleReg")
-    public ResponseEntity<HttpStatus> addSchedule(@RequestBody Schedule schedule){
+    public ResponseEntity<HttpStatus> addSchedule(@RequestBody Schedule schedule) {
         schedulerServiceImpl.addSchedule(schedule);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/schedulerInfo")
     public ResponseEntity<List<Schedule>> scheduleList() throws Exception {
-        try{
+        try {
             List<Schedule> schedules = schedulerServiceImpl.getSchedules();
-            return new ResponseEntity<>(schedules,HttpStatus.OK);
-        }catch (Exception e){
+            return new ResponseEntity<>(schedules, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new Exception(e.getLocalizedMessage());
+        }
+    }
+
+    @PutMapping("/scheduleUpdate")
+    public ResponseEntity<HttpStatus> scheduleUpdate(@RequestBody Schedule schedule) throws Exception {
+        try {
+            schedulerServiceImpl.updateSchedule(schedule);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
             throw new Exception(e.getLocalizedMessage());
         }
     }

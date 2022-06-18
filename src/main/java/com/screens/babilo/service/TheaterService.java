@@ -10,4 +10,6 @@ public interface TheaterService {
     public void addTheater(Theater theater);
 
     public List<Theater> getTheaaters();
+
+    void updateTheater(Theater theater);
 }

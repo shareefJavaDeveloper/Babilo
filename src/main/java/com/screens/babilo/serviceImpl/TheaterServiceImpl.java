@@ -26,4 +26,12 @@ public class TheaterServiceImpl implements TheaterService {
         return theaters;
     }
 
+    @Override
+    public void updateTheater(Theater theater) {
+        Integer theaterId = theater.getTheaterId();
+        String theaterName = theater.getTheaterName();
+        String theaterLocation = theater.getTheaterLocation();
+        theaterDao.updateTheater(theaterId,theaterName,theaterLocation);
+    }
+
 }

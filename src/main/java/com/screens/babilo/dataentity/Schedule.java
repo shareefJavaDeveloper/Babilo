@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -27,5 +28,10 @@ public class Schedule implements Serializable {
     private String time;
     private Date date;
     private Integer seatAvailable;
+
+    @Transient
+    private String movieName;
+    @Transient
+    private String theaterName;
 
 }
