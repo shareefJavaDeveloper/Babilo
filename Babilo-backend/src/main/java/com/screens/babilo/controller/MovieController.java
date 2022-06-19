@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/movie")
 public class MovieController {
@@ -32,7 +32,6 @@ public class MovieController {
             throw new Exception(e.getLocalizedMessage());
         }
     }
-
     @PutMapping("/movieUpdate")
     public ResponseEntity<HttpStatus> movieUpdate(@RequestBody Movie movie) throws Exception {
         try{

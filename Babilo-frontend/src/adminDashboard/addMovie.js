@@ -13,11 +13,12 @@ function AddMovie(props) {
     let updateMovie =  useLocation();
     const navigate = useNavigate();
     const[updateTure, setUpdateTrue] = useState(false);
+    const [movieId, setMovieId] = useState(0);
 
     useEffect(() => {
         if(updateMovie.state && updateMovie.state.edit) {
             setUpdateTrue(true)
-
+            setMovieId(updateMovie.state.movieId);
             setMovieForm({
                 movieName: updateMovie.state.movieName,
                 movieDescription: updateMovie.state.movieDescription,
@@ -99,6 +100,35 @@ function AddMovie(props) {
 
         })
     };
+
+    const handleUpdate = (event) => {
+        event.preventDefault();
+
+        const updateMovie = {
+            movieId: movieId,
+            movieName: movieForm.movieName,
+            movieDescription: movieForm.movieDescription,
+            movieDirector: movieForm.movieDirector,
+            movieRating: movieForm.movieRating,
+            moviePrice: movieForm.moviePrice
+        }
+
+        
+        axios.put('http://localhost:9090/movie/movieUpdate',updateMovie).then((response) => {
+            if (response.status == 200) {
+                navigate('/Movies')
+
+  
+            }
+
+        }).catch((error) => {
+            console.log(error)
+            handleClickError();
+
+        })
+
+    }
+
 
     const [open, setOpen] = React.useState(false);
     const [errorOpen, setErrorOpen] = React.useState(false);
@@ -220,7 +250,13 @@ function AddMovie(props) {
                                     />
 
                                 </div>
+                                {
+                                    updateTure?
+                                <Button className="float" spacing={2} variant="contained" onClick={handleUpdate}>Update</Button>
+                                    :
                                 <Button className="float" spacing={2} variant="contained" onClick={handleSubmit}>Submit</Button>
+
+                                }
                                 <Button className="float" spacing={2} variant="" onClick={handleCancel}>Cancel</Button>
                             </Grid>
                         </Grid>

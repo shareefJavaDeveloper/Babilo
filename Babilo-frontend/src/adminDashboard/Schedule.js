@@ -24,21 +24,18 @@ const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:9090/schedule/schedulerInfo').then((response) => {
-            console.log(response.data);
             setSchedules(response.data)
 
         }).catch((error) => {
 
         });
         axios.get('http://localhost:9090/movie/movieInfo').then((response) => {
-          console.log(response.data);
           setMovies(response.data)
 
       }).catch((error) => {
 
       });
       axios.get('http://localhost:9090/theater/theatersInfo').then((response) => {
-        console.log(response.data);
         setTheaters(response.data)
 
     }).catch((error) => {
@@ -47,44 +44,50 @@ const navigate = useNavigate();
        },[]);
 useEffect(()=> {
   if(schedules&&movies&&theaters) {
-
+    let schedulenew = {}
     let schedulesnew = []
     for(var i=0; i<=schedules.length-1;i++){
-      let schedulenew = {
-        date: "",
-        movieId: 0,
-        movieName:'',
-        theaterName: '',
-        scheduleId: 0,
-        seatAvailable: 0,
-        theaterId: 0,
-        time: ""
+ 
+      for(var j=0; j<=movies.length-1; j++){
+
+        if(movies[j].movieId === schedules[i].movieId) {
+          schedulenew = {
+            date: "",
+            movieId: 0,
+            movieName:'',
+            theaterName: '',
+            scheduleId: 0,
+            seatAvailable: 0,
+            theaterId: 0,
+            time: ""
+          }
+        schedulenew.date = schedules[i]?.date;
+        schedulenew.time = schedules[i]?.time;
+        schedulenew.movieId=schedules[i]?.movieId;
+        schedulenew.movieName=movies[j]?.movieName;
+        schedulenew.theaterId=schedules[i]?.theaterId;
+        schedulenew.scheduleId= schedules[i]?.scheduleId;
+        schedulenew.seatAvailable= schedules[i]?.seatAvailable;
+
+        }
       }
 
+      for(var k=0; k<=theaters.length-1; k++){
+        if(theaters[k].theaterId === schedules[i].theaterId){
+          schedulenew.theaterName= theaters[k]?.theaterName;
+        }
 
-
-      // if(movies[i]?.movieId === schedules[i]?.movieId && theaters[i]?.theaterId === schedules[i]?.theaterId){
-      //   schedulenew.date = schedules[i]?.date;
-      //   schedulenew.time = schedules[i]?.time;
-      //   schedulenew.movieId=schedules[i]?.movieId;
-      //   schedulenew.movieName=movies[i]?.movieName;
-      //   schedulenew.theaterId=schedules[i]?.theaterId;
-      //   schedulenew.theaterName= theaters[i]?.theaterName;
-      //   schedulenew.scheduleId= schedules[i]?.scheduleId;
-      // }
+      }
       schedulesnew.push(schedulenew);
-      console.log(schedulesnew)
+      setSchedules(schedulesnew);
 
     }
-  
- 
 
   }
-  console.log(schedules)
-
 
 },[schedules && movies && theaters])
     const editMovie = (schedule) => {
+      console.log(schedule)
         let data = {
             ...schedule,
             edit: true
@@ -125,10 +128,10 @@ useEffect(()=> {
              onClick={() => editMovie(movie)}
             >
               <TableCell component="th" scope="movie">
-                {movie.movieId}
+                {movie.movieName}
               </TableCell>
-              <TableCell align="left">{movie.theaterId}</TableCell>
-              <TableCell align="left">{moment(movie.date).format('DD-MM-YYYY')}</TableCell>
+              <TableCell align="left">{movie.theaterName}</TableCell>
+              <TableCell align="left">{moment(movie.date).add(1,'days').format('MM-DD-YYYY')}</TableCell>
               <TableCell align="left">{movie.time}</TableCell>
               <TableCell align="left">{movie.seatAvailable}</TableCell>
             </TableRow>

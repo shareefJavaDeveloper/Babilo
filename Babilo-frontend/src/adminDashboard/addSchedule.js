@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 import AdminHeader from "../Header/adminHeader";
 import './addmovie.css';
-
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
@@ -14,11 +13,14 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import moment from "moment";
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 function AddSchedule(props) {
+    const updateSchedule = useLocation();
+    const navigate = useNavigate();
     const [movies, setMovies] = React.useState([]);
     const [theaters, setTheaters] = useState([]);
     const [day, setDay] = useState('');
@@ -27,7 +29,22 @@ function AddSchedule(props) {
     const [seats, setSeats] = useState(0);
     const [time, setTime] = useState('');
     const [date, setDate] = useState('')
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+    const[updateTure, setUpdateTrue] = useState(false);
+    const [scheduleId, setScheduleId] = useState(0);
+    console.log(updateSchedule)
+    useEffect(()=> {
+        if(updateSchedule.state && updateSchedule.state.edit) {
+            setUpdateTrue(true);
+            setScheduleId(updateSchedule.state.scheduleId);
+            setTime(updateSchedule.state.time);
+            setDate(moment(updateSchedule.state.date).add(1,'days').format('YYYY-MM-DD'));
+            setSeats(updateSchedule.state.seatAvailable);
+            setMovie(updateSchedule.state.movieId);
+            setTheater(updateSchedule.state.theaterId)
+        }
+
+    }, [updateSchedule]);
 
     useEffect(() => {
         axios.get('http://localhost:9090/movie/movieInfo').then((response) => {
@@ -65,6 +82,8 @@ function AddSchedule(props) {
         //     movieRating: 0,
         //     moviePrice: 0
         // })
+        navigate('/Schedules')
+
     }
     const handleSubmit = (event) => {
         let schedule = {
@@ -75,7 +94,6 @@ function AddSchedule(props) {
             date: date
         }
         console.log(schedule);
-        debugger
         event.preventDefault();
 
         axios.post('http://localhost:9090/schedule/scheduleReg', schedule).then((response) => {
@@ -104,6 +122,7 @@ function AddSchedule(props) {
         setDay(event.target.value);
     };
     const handleChangeMovie = (event) => {
+        console.log(event.target.value)
         setMovie(event.target.value);
     };
     const handleChangeTheater = (event) => {
@@ -117,7 +136,26 @@ function AddSchedule(props) {
     }
     const handleInputChangeDate = (event) => {
         let datetosting = new Date(event.target.value)
-        setDate(datetosting)
+        setDate(event.target.value)
+        console.log(datetosting)
+    }
+
+    const handleUpdate = (event) => {
+        let schedule = {
+            scheduleId: scheduleId,
+            movieId: movie,
+            theaterId: theater,
+            time: time,
+            seatAvailable: seats,
+            date: date
+        }
+        console.log(schedule)
+        axios.put('http://localhost:9090/schedule/scheduleUpdate', schedule).then((response) => {
+            if (response.status == 200) {
+                navigate('/Schedules')
+
+            }
+        })
     }
     return (
         <div>
@@ -145,7 +183,7 @@ function AddSchedule(props) {
                     autoComplete="off"
                 >
                     <fieldset className="fieldset-schedule">
-                        <legend className="legendTitle-schedule">Add Schedule</legend>
+                        <legend className="legendTitle-schedule">{updateTure? 'Update Schedule': ' Add Schedule'}</legend>
                         <Grid container spacing={2}>
 
                             <Grid item md={6}>
@@ -159,6 +197,7 @@ function AddSchedule(props) {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    value={date}
                                     onChange={handleInputChangeDate}
                                 />
                                                                         <FormControl variant="standard" sx={{ m: 1, minWidth: 180 }}>
@@ -245,7 +284,13 @@ function AddSchedule(props) {
                                     sx={{ width: 150 }}
                                     onChange={handleInputChangeTime}
                                 />
+                                {
+                                    updateTure?
+                                <Button className="float" spacing={2} variant="contained" onClick={handleUpdate}>Update</Button>
+                                    :
                                 <Button className="float" spacing={2} variant="contained" onClick={handleSubmit}>Submit</Button>
+
+                                }
                                 <Button className="float" spacing={2} variant="" onClick={handleCancel}>Cancel</Button>
                             </Grid>
 

@@ -18,10 +18,12 @@ function AddTheater(props) {
     let updateTheater =  useLocation();
     const navigate = useNavigate();
     const[updateTure, setUpdateTrue] = useState(false);
+    const[theaterId, setTheaterId] = useState(0);
 
     useEffect(() => {
         if(updateTheater.state && updateTheater.state.edit) {
             setUpdateTrue(true);
+            setTheaterId(updateTheater.state.theaterId)
             setTheaterForm({
                 theaterLocation: updateTheater.state.theaterLocation,
                 theaterName: updateTheater.state.theaterName
@@ -96,6 +98,25 @@ function AddTheater(props) {
         setOpen(false);
     };
 
+    const handleUpdate = (event) => {
+        event.preventDefault();
+
+        const updateTheater = {
+            theaterId: theaterId,
+            theaterLocation: theaterForm.theaterLocation,
+                theaterName: theaterForm.theaterName
+        }
+
+        axios.put('http://localhost:9090/theater/theaterUpdate', updateTheater).then((response) => {
+            if (response.status == 200) {
+                navigate('/Theaters')
+            }
+
+        }).catch((error) => {
+            setError(error.message)
+        })
+    }
+
 
     return (
         <div>
@@ -148,7 +169,13 @@ function AddTheater(props) {
                                 />
 
                             </div>
-                            <Button spacing={2} className="float" variant="contained" onClick={handleSubmit}>Submit</Button>
+                            {
+                                updateTure ? 
+                                    <Button spacing={2} className="float" variant="contained" onClick={handleUpdate}>Update</Button>
+                                :
+                                    <Button spacing={2} className="float" variant="contained" onClick={handleSubmit}>Submit</Button>
+
+                            }
                             <Button spacing={2} className="float" variant="" onClick={handleCancel}>Cancel</Button>
                             </Grid>
                             </fieldset>
