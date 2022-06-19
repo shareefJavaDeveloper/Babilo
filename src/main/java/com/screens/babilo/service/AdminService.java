@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface AdminService {
 
     public void addAdmin(Admin admin);
+
+    String checkLogin(String emailId, String password);
 }

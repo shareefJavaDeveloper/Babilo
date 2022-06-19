@@ -22,7 +22,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void checkLogin(String emailId, String password) {
-
+    public String checkLogin(String emailId, String password) {
+        if(userDao.findByEmailId(emailId).isPresent()){
+           Optional<User> user = userDao.findByEmailId(emailId);
+           if(user.get().getPassword().equals(password)){
+               return "success";
+           }
+           else{
+               throw new RuntimeException("Username or password is invalid");
+           }
+        }else{
+            throw new RuntimeException("Bad emailId");
+        }
     }
 }
