@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
@@ -23,9 +26,9 @@ public class UserController {
     }
 
     @PostMapping("/userLogin")
-    public ResponseEntity<String> userLogin(@RequestParam String emailId, @RequestParam String password){
-        String value = userService.checkLogin(emailId,password);
-        return new ResponseEntity<>(value,HttpStatus.OK);
+    public ResponseEntity<Optional<User>> userLogin(@RequestParam String emailId, @RequestParam String password){
+        Optional<User> user = userService.checkLogin(emailId,password);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
 }

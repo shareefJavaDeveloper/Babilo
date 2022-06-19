@@ -23,11 +23,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String checkLogin(String emailId, String password) {
+    public Optional<Admin> checkLogin(String emailId, String password) {
         if(adminDao.findByEmailId(emailId).isPresent()){
             Optional<Admin> admin = adminDao.findByEmailId(emailId);
             if(admin.get().getPassword().equals(password)){
-                return "success";
+                return admin;
             }
             else{
                 throw new RuntimeException("Username or password is invalid");
