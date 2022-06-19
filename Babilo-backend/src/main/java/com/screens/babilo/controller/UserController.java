@@ -23,9 +23,9 @@ public class UserController {
     }
 
     @PostMapping("/userLogin")
-    public ResponseEntity<HttpStatus> userLogin(@RequestParam String emailId, @RequestParam String password){
-        userService.checkLogin(emailId,password);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> userLogin(@RequestParam String emailId, @RequestParam String password){
+        String value = userService.checkLogin(emailId,password);
+        return new ResponseEntity<>(value,HttpStatus.OK);
     }
 
 }

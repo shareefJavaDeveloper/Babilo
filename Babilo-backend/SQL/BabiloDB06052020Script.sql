@@ -1,12 +1,6 @@
-Drop Database BabiloDB
-GO
-
-CREATE DATABASE BabiloDB
-GO
-
 USE [BabiloDB]
 GO
-/****** Object:  Table [dbo].[Admin_Registration]    Script Date: 16-06-2022 08:32:03 ******/
+/****** Object:  Table [dbo].[Admin_Registration]    Script Date: 19-06-2022 19:08:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -23,7 +17,7 @@ CREATE TABLE [dbo].[Admin_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Auditorium_Registration]    Script Date: 16-06-2022 08:32:03 ******/
+/****** Object:  Table [dbo].[Auditorium_Registration]    Script Date: 19-06-2022 19:08:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -40,7 +34,7 @@ CREATE TABLE [dbo].[Auditorium_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Movie_Registration]    Script Date: 16-06-2022 08:32:03 ******/
+/****** Object:  Table [dbo].[Movie_Registration]    Script Date: 19-06-2022 19:08:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -58,7 +52,22 @@ CREATE TABLE [dbo].[Movie_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Schedule]    Script Date: 16-06-2022 08:32:03 ******/
+/****** Object:  Table [dbo].[Payment]    Script Date: 19-06-2022 19:08:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Payment](
+	[paymentId] [int] IDENTITY(1,1) NOT NULL,
+	[ticketId] [int] NOT NULL,
+	[date] [date] NOT NULL,
+ CONSTRAINT [PK_PAYMENT] PRIMARY KEY CLUSTERED
+(
+	[paymentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Schedule]    Script Date: 19-06-2022 19:08:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -76,7 +85,7 @@ CREATE TABLE [dbo].[Schedule](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Theater_Registration]    Script Date: 16-06-2022 08:32:03 ******/
+/****** Object:  Table [dbo].[Theater_Registration]    Script Date: 19-06-2022 19:08:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,7 +100,24 @@ CREATE TABLE [dbo].[Theater_Registration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User_Registration]    Script Date: 16-06-2022 08:32:03 ******/
+/****** Object:  Table [dbo].[Ticket]    Script Date: 19-06-2022 19:08:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Ticket](
+	[ticketId] [int] IDENTITY(1,1) NOT NULL,
+	[userId] [int] NOT NULL,
+	[scheduleId] [int] NOT NULL,
+	[price] [decimal](18, 2) NOT NULL,
+	[noOfSeats] [int] NULL,
+ CONSTRAINT [PK_ticket] PRIMARY KEY CLUSTERED
+(
+	[ticketId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User_Registration]    Script Date: 19-06-2022 19:08:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,4 +133,35 @@ CREATE TABLE [dbo].[User_Registration](
 	[userId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Payment] ADD  DEFAULT (getdate()) FOR [date]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PAYMENT]    Script Date: 19-06-2022 19:08:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_PAYMENT]
+AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+		DECLARE @TicketId int = (select top 1 ticketId FROM Ticket order by ticketId desc);
+
+		INSERT INTO [dbo].[Payment]
+				   ([ticketId])
+			 VALUES
+				   (@TicketId)
+
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		IF @@TRANCOUNT > 0
+		BEGIN
+			ROLLBACK TRANSACTION
+		END;
+		DECLARE @Message varchar(MAX) = ERROR_MESSAGE() + ' , rolled back ';
+		THROW 50006, @Message ,1
+	END CATCH
+END
 GO

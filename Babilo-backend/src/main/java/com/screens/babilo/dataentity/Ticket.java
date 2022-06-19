@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,5 +26,5 @@ public class Ticket implements Serializable {
     private Integer userId;
     private Integer scheduleId;
     private BigDecimal price;
-    private String seatNo;
+    private String noOfSeats;
 }

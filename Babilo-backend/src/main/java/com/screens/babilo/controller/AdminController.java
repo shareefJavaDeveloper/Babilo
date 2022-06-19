@@ -20,5 +20,10 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("/adminLogin")
+    public ResponseEntity<String> userLogin(@RequestParam String emailId, @RequestParam String password){
+        String value = adminService.checkLogin(emailId,password);
+        return new ResponseEntity<>(value,HttpStatus.OK);
+    }
 
 }

@@ -6,5 +6,5 @@ public interface UserService {
 
     public void addUser(User user);
 
-    void checkLogin(String emailId, String password);
+    String checkLogin(String emailId, String password);
 }
